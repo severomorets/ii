@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "iifront"
+    }
+  },
+  "defaultProject": "iifront",
+  "cli": {
+    "analytics": "2b477068-99c3-4d66-aa5f-0d8ef785f785"
+  }
 }
