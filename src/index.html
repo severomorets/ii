@@ -8,12 +8,30 @@
   <title>Iifront</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/synaptic/1.1.4/synaptic.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
+<style>
+  body {
+    background-color: #333;
+  }
+  #canv {
+
+    top: 0;right: 0;bottom: 0;left: 0;
+    margin: auto;
+    background-color: white;
+  }
+</style>
 </head>
 <body>
 
-  <app-root></app-root>
+<canvas id="canv" style="display: block;">Ваш браузер устарел, обновитесь.</canvas>
 
 
 </body>
 </html>
+<script type="module"  >
+  import Script from '/iifront/src/script.js'
+  new Script()
+</script>
+
+
+
