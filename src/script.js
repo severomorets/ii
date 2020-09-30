@@ -8,7 +8,7 @@ class Script{
     constructor() {
         this.snake = new Snake(100,200)
 
-        FOODS.push(new Food(500,200,25,'#ff0000'))
+        // FOODS.push(new Food(500,200,25,'#ff0000'))
         FOODS.push(new Food(500,500,25,'#dbac2a'))
         // FOODS.push(new Food(500,random(500,700),25,'#62bf04'))
 
@@ -18,10 +18,12 @@ class Script{
             this.snake.posX = e.layerX
             this.snake.posY = e.layerY
         })
-        setInterval(()=>{
-            this.snake.findFood(FOODS)
-            canvas.drawElements([this.snake,...FOODS])
-        },1000)
+        this.snake.findFood(FOODS)
+        canvas.drawElements([this.snake,...FOODS])
+        // setInterval(()=>{
+        //     this.snake.findFood(FOODS)
+        //     canvas.drawElements([this.snake,...FOODS])
+        // },300000)
     }
 }
 function random(min, max) {

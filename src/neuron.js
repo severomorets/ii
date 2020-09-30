@@ -1,17 +1,34 @@
 class Neuron {
-    constructor() {
-        this.w = [.2,.2]//синапс для 2 параметров
-        this.a = 0.03
+    constructor(input,h) {
+        this.w = [.1,.2]//синапс
+        this.h_1 = [.5,.3,.8,.4]
+        this.a = 0.03//сдвиг
+        this.inputLength = input
+        this.neuronLength = h
+        for (let i=0;i<this.inputLength;i++){
+           // this.w.push(Math.random())
+        }
+        console.log('W',this.w)
+    }
+    init(input,output){
 
     }
+    train(x){
+        for (let i=0;i<this.neuronLength;i++){
+            // this.h_1[i] = this.predict(x)
+            console.log(this.predict(x))
+        }
 
+    }
     predict(x) {
         let Y = 0
         for (var i=0;i<x.length;i++){
-            Y+=x[i]*this.w[i]
+            console.log("i"+i,(1/x[i]),this.w[i])
+            Y+=(1/x[i])*this.w[i]
+
         }
-        Math.sign()
-        return sigmoid(1 / (1 + Math.exp(Y)))
+        return (1/(1+Math.exp(-Y)))
+        // return sigmoid(Y)
     }
 
 }

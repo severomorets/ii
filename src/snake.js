@@ -8,29 +8,33 @@ class Snake {
         this.color = '#cf2626';
         this.body = []
         this.neurons = {
-            food: new Neuron()
+            food: new Neuron(4,4)
         }
 
     }
 
     findFood(FOODS){
-
-        data = [
-
-        ];
+        data = [];
         let d = []
         let input = []
 
         for(var i=0;i<FOODS.length;i++){
-            let x = Math.abs(this.posX-FOODS[i].posX)
-            let y = Math.abs(this.posX-FOODS[i].posY)
+            // let x = Math.abs(this.posX-FOODS[i].posX)
+            // let y = Math.abs(this.posX-FOODS[i].posY)
+
+            let x = this.posX-FOODS[i].posX
+            let y = this.posY-FOODS[i].posY
             let g = Math.sqrt(x*x+y*y)
 
 
             d.push({food:FOODS[i],distance:g,x,y})
+
+
         }
+        this.neurons.food.init([this.posX,this.posY],[FOODS[0].posX,FOODS[0].posY])
         d.sort((a,b)=>{return a.distance - b.distance})
-       console.log( this.neurons.food.predict([d[0].x,d[0].y]))
+
+       // console.log(d[0].x,d[0].y, )
 
 
 
