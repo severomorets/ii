@@ -1,0 +1,23 @@
+{
+  "name": "iifront",
+  "version": "1.0.0",
+  "description": "",
+  "main": "s.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/severomorets/ii.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/severomorets/ii/issues"
+  },
+  "homepage": "https://github.com/severomorets/ii#readme",
+  "dependencies": {
+    "ramda": "^0.27.1",
+    "seed-random": "^2.2.0"
+  }
+}
