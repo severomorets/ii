@@ -8,32 +8,114 @@ class Snake {
         this.color = '#cf2626';
         this.body = []
         this.neurons = {
-            food: new Neuron(4,4)
+            move:[.5,.5,.5,.5],
+            lastDistance:9999,
+            neuron0: new Neuron(3,4,1),
+            neuron1: new Neuron(3,4,1),
+            neuron2: new Neuron(3,4,1),
+            neuron3: new Neuron(3,4,1),
         }
 
     }
 
-    findFood(FOODS){
-        data = [];
-        let d = []
-        let input = []
+    findFood(food){
 
-        for(var i=0;i<FOODS.length;i++){
-            // let x = Math.abs(this.posX-FOODS[i].posX)
-            // let y = Math.abs(this.posX-FOODS[i].posY)
+        let x1 = this.posX-food.posX
+        let y1 = this.posY-food.posY
+        let g1 = Math.sqrt(x1*x1+y1*y1)
 
-            let x = this.posX-FOODS[i].posX
-            let y = this.posY-FOODS[i].posY
-            let g = Math.sqrt(x*x+y*y)
+        this.neurons.move[0] = this.neurons.neuron0.init([x1,y1,g1])[0]
+        this.neurons.move[1] = this.neurons.neuron1.init([x1,y1,g1])[0]
+        this.neurons.move[2] = this.neurons.neuron2.init([x1,y1,g1])[0]
+        this.neurons.move[3] = this.neurons.neuron3.init([x1,y1,g1])[0]
+
+        var max = Math.max.apply(null, this.neurons.move);
+        var idxMax = this.neurons.move.indexOf(max);
+        console.log(this.neurons.move,idxMax)
+        // var idxMaxS = this.neurons.move.indexOf(ss.sort()[3]);
+
+        // for (let i=0;i<this.neurons.move.length;i++){
+        //
+        // }
+        // console.log(this.neurons.move,idxMax,idxMaxS)
+        // this.posY += this.neurons.move[0]>this.neurons.move[2]?this.neurons.move[0]:this.neurons.move[2]
+        // this.posX += this.neurons.move[1]>this.neurons.move[3]?this.neurons.move[1]:this.neurons.move[3]
+            switch (idxMax){
+                case 0:
+                    this.posY-=1
+                    break;
+                case 1:
+                    this.posX+=1
+                    break;
+                case 2:
+                    this.posY+=1
+                    break;
+                case 3:
+                    this.posX-=1
+                    break;
+            }
+            // console.log(this.neurons.move[idxMax]-this.neurons.move[idxMaxS]<0.2)
+
+        // if (this.neurons.move[idxMax]-this.neurons.move[idxMaxS]<0.5){
+        //
+        // }else{
+        //     if (idxMax+idxMaxS==4||idxMax+idxMaxS==0){
+        //
+        //     }else{
+        //         m2 = true
+        //         switch (idxMaxS){
+        //             case 0:
+        //                 this.posY-=1
+        //                 break;
+        //             case 1:
+        //                 this.posX+=1
+        //                 break;
+        //             case 2:
+        //                 this.posY+=1
+        //                 break;
+        //             case 3:
+        //                 this.posX-=1
+        //                 break;
+        //         }
+        //     }
+        //
+        // }
 
 
-            d.push({food:FOODS[i],distance:g,x,y})
 
 
+        if (document.getElementById('isTrain').checked){
+            if (g1<this.neurons.lastDistance){
+                if (idxMax==0){
+                    this.neurons.neuron0.train([x1,y1,g1],[1])
+                }
+                if (idxMax==1){
+                    this.neurons.neuron1.train([x1,y1,g1],[1])
+                }
+                if (idxMax==2){
+                    this.neurons.neuron2.train([x1,y1,g1],[1])
+                }
+                if (idxMax==3){
+                    this.neurons.neuron3.train([x1,y1,g1],[1])
+                }
+            }else {
+                if (idxMax==0){
+                    this.neurons.neuron0.train([x1,y1,g1],[0])
+                }
+                if (idxMax==1){
+                    this.neurons.neuron1.train([x1,y1,g1],[0])
+                }
+                if (idxMax==2){
+                    this.neurons.neuron2.train([x1,y1,g1],[0])
+                }
+                if (idxMax==3){
+                    this.neurons.neuron3.train([x1,y1,g1],[0])
+                }
+            }
         }
-        this.neurons.food.init([this.posX,this.posY],[FOODS[0].posX,FOODS[0].posY])
-        d.sort((a,b)=>{return a.distance - b.distance})
 
+
+        this.neurons.lastDistance = g1
        // console.log(d[0].x,d[0].y, )
 
 

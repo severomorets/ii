@@ -7,23 +7,24 @@ const FOODS = []
 class Script{
     constructor() {
         this.snake = new Snake(100,200)
-
+        this.food = new Food(500,250,25,'#dbac2a')
         // FOODS.push(new Food(500,200,25,'#ff0000'))
-        FOODS.push(new Food(500,500,25,'#dbac2a'))
+        FOODS.push(this.food)
         // FOODS.push(new Food(500,random(500,700),25,'#62bf04'))
 
 
 
         canvas.canv.addEventListener('mousedown', (e) =>{
-            this.snake.posX = e.layerX
-            this.snake.posY = e.layerY
+
+            this.food.posX = e.layerX
+            this.food.posY = e.layerY
         })
-        this.snake.findFood(FOODS)
-        canvas.drawElements([this.snake,...FOODS])
-        // setInterval(()=>{
-        //     this.snake.findFood(FOODS)
-        //     canvas.drawElements([this.snake,...FOODS])
-        // },300000)
+
+        // canvas.drawElements([this.snake,...FOODS])
+        setInterval(()=>{
+            this.snake.findFood(this.food)
+            canvas.drawElements([this.snake,this.food])
+        },10)
     }
 }
 function random(min, max) {

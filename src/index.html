@@ -9,6 +9,7 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/synaptic/1.1.4/synaptic.js"></script>
 <style>
   body {
     background-color: #333;
@@ -26,10 +27,13 @@
 
 <canvas id="canv" style="display: block;">Ваш браузер устарел, обновитесь.</canvas>
 
-
+<input type="checkbox" name="isTrain"  id="isTrain" value="1">
 </body>
 </html>
 <script type="module"  >
+
+
+
   import Script from '/iifront/src/script.js'
   new Script()
 </script>
