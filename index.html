@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Minimal working example</title>
+    <style>
+        body {
+            background-color: #8e8e8e;
+        }
+        #canv {
+
+            top: 0;right: 0;bottom: 0;left: 0;
+            margin: auto;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+<ul id="events"></ul>
+<canvas id="canv" style="display: block;">Ваш браузер устарел, обновитесь.</canvas>
+<div>
+  ПОТРЕБНОСТИ
+    <div>
+        голод <input class="inputData" type="text" name="golod" value="0.5">
+        edaX <input id="edaX" type="text" name="golod" value="200">
+        edaY <input id="edaY" type="text" name="eda" value="150">
+    </div>
+</div>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
+<script>
+    const $events = document.getElementById('events');
+    const newItem = (content) => {
+        const item = document.createElement('li');
+        item.innerText = content;
+        return item;
+    };
+    const socket = io.connect('http://localhost:3000');
+    socket.on('connect', () => {
+        $events.appendChild(newItem('connect'));
+    });
+
+    socket.on('message', drawElements);
+
+    let UNIT = {
+        color:'#db6767',
+        posX:100,
+        posY:100,
+        size:10
+    }
+
+    let canv = document.getElementById('canv');
+    let ctx = canv.getContext('2d');
+    canv.width = 700;
+    canv.height = 700;
+    function drawElements() {
+        clear();
+        let data = []
+        for(let i=0;i<document.getElementsByClassName('inputData').length;i++){
+            let x = UNIT.posX-document.getElementById('edaX').value
+            let y = UNIT.posY-document.getElementById('edaY').value
+            let g = Math.sqrt(x*x+y*y)
+            data.push({
+
+                golod:document.getElementsByClassName('inputData')[i].value,
+                distance:g ,
+                x1:UNIT.posX,
+                y1:UNIT.posY,
+                x2:document.getElementById('edaX').value,
+                y2:document.getElementById('edaY').value,
+            })
+        }
+
+        socket.emit('message',JSON.stringify(data))
+
+            ctx.beginPath();
+            ctx.fillStyle = UNIT.color;
+            ctx.arc(UNIT.posX, UNIT.posY, UNIT.size, 0, 2 * Math.PI, true);
+            ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = '#CCCCCC';
+        ctx.arc(document.getElementById('edaX').value, document.getElementById('edaY').value, 20, 0, 2 * Math.PI, true);
+        ctx.fill();
+
+
+    }
+    movieTo = function(){
+
+    }
+    clear = function(){
+        ctx.clearRect(0, 0, canv.width, canv.height);
+    }
+    setInterval(drawElements,2000)
+    // drawElements({color:'#db6767',posX:100,posY:100,size:10})
+
+</script>
+</body>
+</html>

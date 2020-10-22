@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Minimal working example</title>
+    <style>
+        body {
+            background-color: #333;
+        }
+        #canv {
+
+            top: 0;right: 0;bottom: 0;left: 0;
+            margin: auto;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+<ul id="events"></ul>
+<canvas id="canv" style="display: block;">Ваш браузер устарел, обновитесь.</canvas>
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script>
+    const $events = document.getElementById('events');
+
+    const newItem = (content) => {
+        const item = document.createElement('li');
+        item.innerText = content;
+        return item;
+    };
+
+    const socket = io();
+
+    socket.on('connect', () => {
+        $events.appendChild(newItem('connect'));
+    });
+    socket.emit('message',JSON.stringify({sdasd:"sdasd"}))
+
+
+    let canv = document.getElementById('canv');
+    let ctx = canv.getContext('2d');
+    canv.width = 700;
+    canv.height = 700;
+let drawElements = function(el) {
+        this.clear();
+        for (var i=0;i<el.length;i++){
+            ctx.beginPath();
+            ctx.fillStyle = el[i].color;
+            ctx.arc(el[i].posX, el[i].posY, el[i].size, 0, 2 * Math.PI, true);
+            ctx.fill();
+        }
+
+    }
+    movieTo = function(){
+
+    }
+clear = function(){
+    ctx.clearRect(0, 0, canv.width, canv.height);
+}
+    drawElements([{color:'#db6767',posX:100,posY:100,size:10}])
+</script>
+</body>
+</html>

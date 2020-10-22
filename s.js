@@ -29,9 +29,13 @@ var weights = {
     i1_h3: random(),
     i2_h3: random(),
     bias_h3: random(),
+    i1_h4: random(),
+    i2_h4: random(),
+    bias_h4: random(),
     h1_o1: random(),
     h2_o1: random(),
     h3_o1: random(),
+    h4_o1: random(),
     bias_o1: random(),
 };
 
@@ -54,10 +58,12 @@ function nn(i1, i2) {
         weights.bias_h3;
     var h3 = activation_sigmoid(h3_input);
 
+
     var o1_input =
         weights.h1_o1 * h1 +
         weights.h2_o1 * h2 +
         weights.h3_o1 * h3 +
+
         weights.bias_o1;
 
     var o1 = activation_sigmoid(o1_input);
@@ -72,7 +78,7 @@ var calculateResults = () =>{
 
 var outputResults = () =>
     data.forEach(({input: [i1, i2], output: y}) =>
-        console.log(`${i1} XOR ${i2} => ${nn(i1, i2)} (expected ${y})`));
+        console.log(`${i1} ${i2}  => ${nn(i1, i2)} (expected ${y})`));
 
 
 
@@ -88,9 +94,13 @@ var train = () => {
         i1_h3: 0,
         i2_h3: 0,
         bias_h3: 0,
+        i1_h4: 0,
+        i2_h4: 0,
+        bias_h4: 0,
         h1_o1: 0,
         h2_o1: 0,
         h3_o1: 0,
+        h3_o4: 0,
         bias_o1: 0,
     };
 
@@ -114,6 +124,7 @@ var train = () => {
             weights.i2_h3 * i2 +
             weights.bias_h3;
         var h3 = activation_sigmoid(h3_input);
+
         var o1_input =
             weights.h1_o1 * h1 +
             weights.h2_o1 * h2 +
