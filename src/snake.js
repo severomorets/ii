@@ -10,16 +10,20 @@ class Snake {
         this.neurons = {
             move:[.5,.5,.5,.5],
             lastDistance:9999,
-            neuron0: new Neuron(3,4,1),
-            neuron1: new Neuron(3,4,1),
-            neuron2: new Neuron(3,4,1),
-            neuron3: new Neuron(3,4,1),
+            neuron0: new Neuron(3,8,1),
+            neuron1: new Neuron(3,8,1),
+            neuron2: new Neuron(3,8,1),
+            neuron3: new Neuron(3,8,1),
         }
 
     }
 
     findFood(food){
-
+        var activation_sigmoid = x => 1 / (1 + Math.exp(-x));
+        var derivative_sigmoid = x => {
+            const fx = activation_sigmoid(x);
+            return fx * (1 - fx);
+        };
         let x1 = this.posX-food.posX
         let y1 = this.posY-food.posY
         let g1 = Math.sqrt(x1*x1+y1*y1)
@@ -28,10 +32,73 @@ class Snake {
         this.neurons.move[1] = this.neurons.neuron1.init([x1,y1,g1])[0]
         this.neurons.move[2] = this.neurons.neuron2.init([x1,y1,g1])[0]
         this.neurons.move[3] = this.neurons.neuron3.init([x1,y1,g1])[0]
+        let sigY = ((this.posY-food.posY)*0.01)
+        let sigX = ((this.posX-food.posX)*0.01)
 
-        var max = Math.max.apply(null, this.neurons.move);
-        var idxMax = this.neurons.move.indexOf(max);
-        console.log(this.neurons.move,idxMax)
+
+
+        let nY = (this.neurons.move[2]-this.neurons.move[0])*sigY
+        let nX = (this.neurons.move[1]-this.neurons.move[3])*sigX
+console.log(sigX,sigY)
+
+        this.posY+=nY
+        this.posX+=nX
+        // if (this.neurons.move[0]>this.neurons.move[2]){
+        //     this.posY-=1
+        // }else{
+        //     this.posY+=1
+        // }
+        // if (this.neurons.move[1]>this.neurons.move[3]){
+        //     this.posX+=1
+        // }else{
+        //     this.posX-=1
+        // }
+
+// console.log(this.neurons.move)
+
+        if (document.getElementById('isTrain').checked){
+            let x2 = this.posX-food.posX
+            let y2 = this.posY-food.posY
+            let g2 = Math.sqrt(x2*x2+y2*y2)
+            if (g2<this.neurons.lastDistance){
+
+            if (this.neurons.move[0]>this.neurons.move[2]){
+                this.neurons.neuron0.train([x2,y2,g2],[1])
+                this.neurons.neuron2.train([x2,y2,g2],[0])
+            }else{
+                this.neurons.neuron0.train([x2,y2,g2],[0])
+                this.neurons.neuron2.train([x2,y2,g2],[1])
+            }
+
+                if (this.neurons.move[1]>this.neurons.move[3]){
+                    this.neurons.neuron1.train([x2,y2,g2],[1])
+                    this.neurons.neuron3.train([x2,y2,g2],[0])
+                }else{
+                    this.neurons.neuron1.train([x2,y2,g2],[0])
+                    this.neurons.neuron3.train([x2,y2,g2],[1])
+                }
+            }else{
+                if (this.neurons.move[0]>this.neurons.move[2]){
+                    this.neurons.neuron0.train([x2,y2,g2],[0])
+                    this.neurons.neuron2.train([x2,y2,g2],[1])
+                }else{
+                    this.neurons.neuron0.train([x2,y2,g2],[1])
+                    this.neurons.neuron2.train([x2,y2,g2],[0])
+                }
+
+                if (this.neurons.move[1]>this.neurons.move[3]){
+                    this.neurons.neuron1.train([x2,y2,g2],[0])
+                    this.neurons.neuron3.train([x2,y2,g2],[1])
+                }else{
+                    this.neurons.neuron1.train([x2,y2,g2],[1])
+                    this.neurons.neuron3.train([x1,y1,g1],[0])
+                }
+            }
+
+        }
+
+
+
         // var idxMaxS = this.neurons.move.indexOf(ss.sort()[3]);
 
         // for (let i=0;i<this.neurons.move.length;i++){
@@ -40,20 +107,20 @@ class Snake {
         // console.log(this.neurons.move,idxMax,idxMaxS)
         // this.posY += this.neurons.move[0]>this.neurons.move[2]?this.neurons.move[0]:this.neurons.move[2]
         // this.posX += this.neurons.move[1]>this.neurons.move[3]?this.neurons.move[1]:this.neurons.move[3]
-            switch (idxMax){
-                case 0:
-                    this.posY-=1
-                    break;
-                case 1:
-                    this.posX+=1
-                    break;
-                case 2:
-                    this.posY+=1
-                    break;
-                case 3:
-                    this.posX-=1
-                    break;
-            }
+        //     switch (idxMax){
+        //         case 0:
+        //             this.posY-=1
+        //             break;
+        //         case 1:
+        //             this.posX+=1
+        //             break;
+        //         case 2:
+        //             this.posY+=1
+        //             break;
+        //         case 3:
+        //             this.posX-=1
+        //             break;
+        //     }
             // console.log(this.neurons.move[idxMax]-this.neurons.move[idxMaxS]<0.2)
 
         // if (this.neurons.move[idxMax]-this.neurons.move[idxMaxS]<0.5){
@@ -84,35 +151,7 @@ class Snake {
 
 
 
-        if (document.getElementById('isTrain').checked){
-            if (g1<this.neurons.lastDistance){
-                if (idxMax==0){
-                    this.neurons.neuron0.train([x1,y1,g1],[1])
-                }
-                if (idxMax==1){
-                    this.neurons.neuron1.train([x1,y1,g1],[1])
-                }
-                if (idxMax==2){
-                    this.neurons.neuron2.train([x1,y1,g1],[1])
-                }
-                if (idxMax==3){
-                    this.neurons.neuron3.train([x1,y1,g1],[1])
-                }
-            }else {
-                if (idxMax==0){
-                    this.neurons.neuron0.train([x1,y1,g1],[0])
-                }
-                if (idxMax==1){
-                    this.neurons.neuron1.train([x1,y1,g1],[0])
-                }
-                if (idxMax==2){
-                    this.neurons.neuron2.train([x1,y1,g1],[0])
-                }
-                if (idxMax==3){
-                    this.neurons.neuron3.train([x1,y1,g1],[0])
-                }
-            }
-        }
+
 
 
         this.neurons.lastDistance = g1
