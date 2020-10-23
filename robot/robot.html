@@ -1,0 +1,45 @@
+<script>
+
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Iifront</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/synaptic/1.1.4/synaptic.js"></script>
+    <style>
+        body {
+            background-color: #333;
+        }
+        #canv {
+
+            top: 0;right: 0;bottom: 0;left: 0;
+            margin: auto;
+            background-color: white;
+        }
+    </style>
+    <script src="//unpkg.com/brain.js"></script>
+</head>
+<body>
+<div style="color: white">
+    x: <span style="color: white" id="mouseX"></span><br>
+    y: <span style="color: white" id="mouseY"></span><br>
+</div>
+<canvas id="canv" style="display: block;">Ваш браузер устарел, обновитесь.</canvas>
+
+<input type="checkbox" name="isTrain"  id="isTrain" value="1">
+</body>
+</html>
+<script type="module"  >
+
+
+
+    import Robot from '/iifront/robot/Robot.js'
+    new Robot()
+</script>
+
+
+

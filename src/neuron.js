@@ -9,6 +9,7 @@ class Neuron {
 
         var inputLayer = new this.Layer(input);
         var hiddenLayer = new this.Layer(hidden);
+        var hiddenLayer2 = new this.Layer(hidden);
         var outputLayer = new this.Layer(output);
 
         inputLayer.project(hiddenLayer);
@@ -16,7 +17,7 @@ class Neuron {
 
         this.myNetwork = new synaptic.Network({
             input: inputLayer,
-            hidden: [hiddenLayer],
+            hidden: [hiddenLayer,hiddenLayer2],
             output: outputLayer
         });
 
