@@ -35,7 +35,8 @@
 </html>
 <script type="module"  >
 
-
+    Number.prototype.degToRad = function () { return (Math.PI * this) / 180; }
+    Number.prototype.radToDeg = function () { return (this * 180) / Math.PI; }
 
     import Robot from '/iifront/robot/Robot.js'
     new Robot()

@@ -8,15 +8,20 @@ class Canvas {
 
 
     }
-
+    drawLineAngle = function(x1,y1,x2,y2){
+        this.ctx.strokeStyle = "#5acccc";
+        this.ctx.lineCap = "round";
+        this.ctx.moveTo(x1,y1);
+        this.ctx.lineWidth = 5;
+        this.ctx.lineTo(x2, y2);
+        this.ctx.stroke();
+    }
     drawElements = function({x,y,angle}) {
-       //x 200
-        //y 300
+       //x 150
+        //y 200
         // angle 30
-        let a = 250
-        let b = 220
-        let c = Math.sqrt(x*x+y*y)
-        this.clear();
+
+
 
 
 
@@ -24,27 +29,22 @@ class Canvas {
 
         this.ctx.beginPath();
         this.ctx.fillStyle = '#000dff';
-        this.ctx.arc(this.canv.width/2-x, this.canv.height-y, 10, 0, 2 * Math.PI, true);
+        this.ctx.arc(this.canv.width/2-x, this.canv.height-y, 20, 0, 2 * Math.PI, true);
         this.ctx.fill();
         this.ctx.beginPath();
         this.ctx.fillStyle = '#ff4d5d';
-        this.ctx.strokeStyle = "#5acccc";
-        this.ctx.lineCap = "round";
-        this.ctx.moveTo(this.canv.width/2,this.canv.height);
-        this.ctx.lineWidth = 1;
-        this.ctx.lineTo(this.canv.width/2-x, this.canv.height-y);
-        this.ctx.stroke();
+        // this.ctx.strokeStyle = "#5acccc";
+        // this.ctx.lineCap = "round";
+        // this.ctx.moveTo(this.canv.width/2,this.canv.height);
+        // this.ctx.lineWidth = 1;
+        // this.ctx.lineTo(this.canv.width/2-x, this.canv.height-y);
+        // this.ctx.stroke();
         // this.ctx.arc(this.canv.width/2, this.canv.height, 10, 0, 2 * Math.PI, true);
         // this.ctx.fill();
 
-console.log()
-
-        let angle1 = Math.acos(((a*a+c*c-b*b)/(2*a*c)))* (180 / Math.PI)+Math.acos(((x*x+c*c-b*b)/(2*x*c)))* (180 / Math.PI)
-        let angle2 = Math.acos(((a*a+b*b-c*c)/(2*a*b)))* (180 / Math.PI)
 
 
 
-console.log(a,b,c,angle1,angle2,'ab',Math.acos(((a*a+c*c-b*b)/(2*a*c)))* (180 / Math.PI),'xc'+Math.acos(((x*x+c*c-b*b)/(2*x*c)))* (180 / Math.PI))
 // console.log( (((a*a+b*b-c*c)/2*a*b))/ 180 * Math.PI)
 
 
@@ -59,7 +59,7 @@ console.log(a,b,c,angle1,angle2,'ab',Math.acos(((a*a+c*c-b*b)/(2*a*c)))* (180 / 
 
         // let angle1 = 90
         // let angle2 = 30
-        let angle3 = 0
+
 
 
         // let c = Math.sqrt(a*a+b*b-2*a*b*Math.cos(angle2 / 180 * Math.PI));
@@ -71,7 +71,7 @@ console.log(a,b,c,angle1,angle2,'ab',Math.acos(((a*a+c*c-b*b)/(2*a*c)))* (180 / 
 
 
 
-        this.setPosM(a,b,80,angle1,angle2,angle3)
+        this.setPosM(x,y,angle)
 
         // this.ctx.rotate(-angele);
 
@@ -79,18 +79,59 @@ console.log(a,b,c,angle1,angle2,'ab',Math.acos(((a*a+c*c-b*b)/(2*a*c)))* (180 / 
 
     }
 
-    setPosM(l1,l2,l3,angle1,angle2,angle3){
+    setPosM(xV,yV,angle3S){
 
-        let x1 = this.canv.width/2 + l1*Math.cos( Math.PI/1 - angle1*(Math.PI/180))
-        let y1 = this.canv.height - l1*Math.sin(Math.PI/1 - angle1*(Math.PI/180))
+        let a = 220
+        let b = 180
+        let c = 80
 
-        let x2 = x1 + l2*Math.cos( Math.PI/1 - angle2*(Math.PI/180))
-        let y2 = y1 - l2*Math.sin(Math.PI/1 - angle2*(Math.PI/180))
 
-        let x3 = x2 + 50*Math.cos( Math.PI/1 - angle3*(Math.PI/180))
-        let y3 = y2 - 50*Math.sin(Math.PI/1 - angle3*(Math.PI/180))
 
-// √(b^2+c^2-2bc cos⁡α )
+        let y = yV-(Math.sin(angle3S.degToRad())*c)
+        let x = xV-(Math.cos(angle3S.degToRad())*c)
+
+        let __xA3A1 = Math.sqrt(x*x+y*y)
+        let angle1 =  Math.acos(((a*a+__xA3A1*__xA3A1-b*b)/(2*a*__xA3A1)))* (180 / Math.PI)+Math.acos(((x*x+__xA3A1*__xA3A1-y*y)/(2*x*__xA3A1)))* (180 / Math.PI)
+        let angle2 = Math.acos(((a*a+b*b-__xA3A1*__xA3A1)/(2*a*b)))* (180 / Math.PI)
+
+        let fromViwe= (angle1-90)-(90-angle2)
+
+        let angle3 = angle3S
+        // console.log(angle1,angle2,angle3,fromViwe)
+        if (true){
+            angle2=fromViwe
+            // angle3 = fromViwe
+        }
+
+
+
+
+
+
+
+        // let angle1 =  Math.acos(((a*a+c*c-b*b)/(2*a*c)))* (180 / Math.PI)+Math.acos(((x*x+c*c-b*b)/(2*x*c)))* (180 / Math.PI)
+
+        // let angle1 = Math.acos(((a*a+c*c-b*b)/(2*a*c)))* (180 / Math.PI)+Math.acos(((x*x+c*c-b*b)/(2*x*c)))* (180 / Math.PI)
+        // let angle2 = Math.acos(((a*a+b*b-c*c)/(2*a*b)))* (180 / Math.PI)
+
+        // let angle2 = Math.acos(((b*b+c1*c1-y*y)/(2*b*c1)))* (180 / Math.PI)
+
+        // let angle2 = 0
+        // let angle3 = 0
+
+
+
+
+        let x1 = this.canv.width/2 + a*Math.cos( Math.PI/1 - angle1*(Math.PI/180))
+        let y1 = this.canv.height - a*Math.sin(Math.PI/1 - angle1*(Math.PI/180))
+
+        let x2 = x1 + b*Math.cos( Math.PI/1 - angle2*(Math.PI/180))
+        let y2 = y1 - b*Math.sin(Math.PI/1 - angle2*(Math.PI/180))
+
+        let x3 = x2 + c*Math.cos( Math.PI - angle3*(Math.PI/180))
+        let y3 = y2 - c*Math.sin(Math.PI - angle3*(Math.PI/180))
+
+
         this.ctx.beginPath();
         this.ctx.fillStyle = '#ff4d5d';
         this.ctx.strokeStyle = "#01cc24";
@@ -129,7 +170,9 @@ console.log(a,b,c,angle1,angle2,'ab',Math.acos(((a*a+c*c-b*b)/(2*a*c)))* (180 / 
         this.ctx.beginPath();
         this.ctx.arc(x2,y2, 10, 0, 2 * Math.PI, true);
         this.ctx.fill();
-
+        this.ctx.beginPath();
+        this.ctx.arc(x3,y3, 10, 0, 2 * Math.PI, true);
+        this.ctx.fill();
 
     }
 
