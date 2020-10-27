@@ -1,0 +1,101 @@
+
+<script>
+    let train_data = JSON.parse('[{"input":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"output":{"пустой экран":1}}]')
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Iifront</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://unpkg.com/brain.js@2.0.0-beta.2/dist/brain-browser.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/synaptic/1.1.4/synaptic.js"></script>
+    <style>
+        body {
+            background-color: #333;
+        }
+        .setpoint0{
+            min-width: 100px;
+            height: 100px;
+            font-size: 30px;
+        }
+        .setpoint1{
+            min-width: 100px;
+            height: 70px;
+            font-size: 25px;
+        }
+        .setpoint2{
+            min-width: 100px;
+            height: 50px;
+            font-size: 20px;
+        }
+        #canv {
+
+            top: 0;right: 0;bottom: 0;left: 0;
+            margin: auto;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+<input type="file" id="input"/>
+<canvas id="canvas" style="display: block;">Ваш браузер устарел, обновитесь.</canvas>
+
+
+
+</body>
+</html>
+<script>
+
+    var socket = new WebSocket("ws://localhost:8000");
+    socket.onopen = function() {
+        console.log("Соединение установлено.");
+    };
+    socket.onmessage = function(event) {
+        console.log("Получены данные " + event.data);
+    };
+    var input = document.getElementById('input');
+    input.addEventListener('change', handleFiles);
+    function handleFiles(e) {
+        var canvas = document.getElementById('canvas')
+        canvas.width = 800
+        canvas.height = 600
+        var context  = canvas.getContext('2d');
+        var img = new Image;
+        img.src = URL.createObjectURL(e.target.files[0]);
+        img.onload = function(ww) {
+            console.log(ww)
+            console.log(img)
+            context .drawImage(img, 0, 0,800,600);
+    var input = context.getImageData(0, 0, 800, 600);
+    var output = context.createImageData(canvas.width, canvas.height);
+    var w = input.width, h = input.height;
+    var inputData = input.data;
+    var outputData = output.data;
+
+
+let sdas = []
+            let t = 0;
+            for (var i = 0, n = input.data.length; i < n; i += 4) {
+                var r = input.data[i];
+                var g = input.data[i+1];
+                var b = input.data[i+2];
+                var v = +(0.2126*r + 0.7152*g + 0.0722*b).toFixed(0);
+                if (t==0){
+                    sdas.push(v)
+                }
+                input.data[i] = input.data[i+1] = input.data[i+2] = v
+                t++;
+                if (t==3){t=0;}
+// alpha
+            }
+            console.log(sdas)
+            socket.send(Object.assign([],JSON.stringify(inputData)))
+    context.putImageData(input, 0, 0);
+        }
+    }
+
+</script>

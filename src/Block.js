@@ -1,10 +1,10 @@
-class Food {
-    constructor(x = 0, y = 0, s = 25,color = '#59cf26') {
+class Block {
+    constructor(x = 0, y = 0, w = 25,h = 100,color = '#000000') {
         this.posX = x;
         this.posY = y;
-        this.size = s;
-        this.width = null;
-        this.height = null;
+        this.size = null;
+        this.width = w;
+        this.height = h;
         this.color = color;
         this.body = []
 
@@ -17,4 +17,4 @@ class Food {
     }
 
 }
-export default Food;
+export default Block;

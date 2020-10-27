@@ -20,6 +20,7 @@
     "mysql2": "^2.2.5",
     "ramda": "^0.27.1",
     "seed-random": "^2.2.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "synaptic": "^1.1.4"
   }
 }

@@ -16,14 +16,25 @@ class Canvas {
     drawElements = function(el) {
         this.clear();
         for (var i=0;i<el.length;i++){
-            // this.ctx.beginPath();
-            // this.ctx.fillStyle = el[i].color;
-            // this.ctx.fillRect(el[i].posX, el[i].posY, el[i].size, el[i].size);
-            this.ctx.beginPath();
-            this.ctx.fillStyle = el[i].color;
-            this.ctx.arc(el[i].posX, el[i].posY, el[i].size, 0, 2 * Math.PI, true);
-            this.ctx.fill();
+
+            if (el[i].size){
+                this.ctx.beginPath();
+                this.ctx.fillStyle = el[i].color;
+                this.ctx.arc(el[i].posX, el[i].posY, el[i].size, 0, 2 * Math.PI, true);
+                this.ctx.fill();
+            }
+            // console.log(el[i].width)
+            if (el[i].width){
+
+
+                this.ctx.beginPath();
+                this.ctx.fillStyle =el[i].color;
+                this.ctx.fillRect(el[i].posX, el[i].posY, el[i].width, el[i].height);
+            }
+
         }
+
+
 
     }
 
