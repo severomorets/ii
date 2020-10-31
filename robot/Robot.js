@@ -58,6 +58,7 @@ class Script{
         // canvas.drawElements([this.snake,...FOODS])
         setInterval(()=>{
             canvas.clear()
+
             canvas.drawElements({x:x,y:y,angle:angle})
             canvas.drawLineAngle(1000/2-coordsStart.x,700-coordsStart.y,1000/2 - coordsEnd.x,700-coordsEnd.y)
 

@@ -4,6 +4,7 @@ class Canvas {
         this.ctx = canv.getContext('2d');
         this.canv.width = w;
         this.canv.height = h;
+        this.canv.ba
 
 
 
@@ -130,6 +131,10 @@ class Canvas {
 
         let x3 = x2 + c*Math.cos( Math.PI - angle3*(Math.PI/180))
         let y3 = y2 - c*Math.sin(Math.PI - angle3*(Math.PI/180))
+        this.ctx.beginPath();
+        this.ctx.fillStyle = 'rgba(0,0,0,1)';
+        this.ctx.fillRect(0,0,window.innerWidth,window.innerHeight);
+
 
 
         this.ctx.beginPath();
@@ -147,6 +152,7 @@ class Canvas {
 
         this.ctx.beginPath();
         this.ctx.fillStyle = '#ff4d5d';
+
         this.ctx.strokeStyle = "#cc001e";
         this.ctx.lineCap = "round";
         this.ctx.moveTo(x1,y1);
