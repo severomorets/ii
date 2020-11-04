@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/awesome-public-datasets" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/room3d" vcs="Git" />
   </component>
 </project>

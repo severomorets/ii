@@ -1,14 +1,17 @@
 import Snake from "/iifront/src/snake.js";
 import Canvas from "/iifront/src/canvas.js";
 import Food from "/iifront/src/food.js";
+import Block from "/iifront/src/Block.js";
 
 const canvas = new Canvas(1000,700)
 const FOODS = []
+window.BLOCKS = []
 class Script{
     constructor() {
         this.snake = new Snake(100,200)
         this.food = new Food(500,250,25,'#dbac2a')
-        // FOODS.push(new Food(500,200,25,'#ff0000'))
+
+        window.BLOCKS.push( new Block(150,80,1,200,'#000000'))
         FOODS.push(this.food)
         // FOODS.push(new Food(500,random(500,700),25,'#62bf04'))
 
@@ -23,7 +26,9 @@ class Script{
         // canvas.drawElements([this.snake,...FOODS])
         setInterval(()=>{
             this.snake.findFood(this.food)
-            canvas.drawElements([this.snake,this.food])
+
+
+            canvas.drawElements([this.snake,this.food].concat(window.BLOCKS))
         },10)
     }
 }

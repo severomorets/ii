@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example 01.01 - Basic skeleton</title>
+    <script type="text/javascript"
+            src="./libs/three.js">
+    </script>
+    <script type="text/javascript"
+            src="./libs/jquery.js">
+    </script>
+    <script type="text/javascript"
+            src="./libs/OrbitControls.js">
+    </script>
+    <style>
+        body{
+            /* set margin to 0 and overflow to hidden,
+            to use the complete page */
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<!--Div which will hold the Output -->
+<div id="WebGL-output">
+</div>
+<canvas id="c"></canvas>
+<!--Javascript code that runs our Three.js examples -->
+<script type="text/javascript">
+    // once everything is loaded, we run our Three.js stuff.
+
+    $(function () {
+        const canvas = document.querySelector('#c');
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(45
+            , window.innerWidth / window.innerHeight
+            , 0.1, 1000);
+        var renderer = new THREE.WebGLRenderer({canvas});
+        renderer.setClearColor(0xEEEEEE);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMapEnabled = true;
+        renderer.shadowMap.enabled = true;
+        var controls = new THREE.OrbitControls( camera, renderer.domElement );
+        var axes = new THREE.AxesHelper( 20 );
+        scene.add(axes);
+        var planeGeometry = new THREE.PlaneGeometry(60,20);
+        var planeMaterial = new THREE.MeshLambertMaterial(
+            {color: 0xffffff});
+        var plane = new THREE.Mesh(planeGeometry,planeMaterial);
+        plane.rotation.x = -0.5*Math.PI;
+        plane.position.x = 15;
+        plane.position.y = 0;
+        plane.position.z = 0;
+        plane.receiveShadow = true;
+        scene.add(plane);
+        var cubeGeometry = new THREE.CubeGeometry(4,4,4);
+        var cubeMaterial = new THREE.MeshLambertMaterial(
+            {color: 0xff0000});
+        var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        cube.position.x = -4;
+        cube.position.y = 3;
+
+        cube.position.z = 0;
+        cube.castShadow = true;
+        scene.add(cube);
+        var sphereGeometry = new THREE.SphereGeometry(4,20,20);
+        var sphereMaterial = new THREE.MeshLambertMaterial(
+            {color: '#66bdcc'});
+        var sphere = new THREE.Mesh(sphereGeometry,sphereMaterial);
+        sphere.position.x = 20;
+        sphere.position.y = 4;
+        sphere.position.z = 2;
+        sphere.castShadow = true;
+        scene.add(sphere);
+        camera.position.x = -30;
+        camera.position.y = 20;
+        camera.position.z = 30;
+        camera.lookAt(scene.position);
+        var spotLight = new THREE.SpotLight( 0xffffff );
+        spotLight.position.set( -40, 60, -10 );
+        spotLight.castShadow = true;
+        scene.add(spotLight );
+        $("#WebGL-output").append(renderer.domElement);
+        class PickHelper {
+            constructor() {
+                this.raycaster = new THREE.Raycaster();
+                this.pickedObject = null;
+                this.pickedObjectSavedColor = 0;
+            }
+            pick(normalizedPosition, scene, camera, time) {
+                // restore the color if there is a picked object
+                if (this.pickedObject) {
+                    this.pickedObject.material.emissive.setHex(this.pickedObjectSavedColor);
+                    this.pickedObject = undefined;
+                }
+
+                // cast a ray through the frustum
+                this.raycaster.setFromCamera(normalizedPosition, camera);
+                // get the list of objects the ray intersected
+                const intersectedObjects = this.raycaster.intersectObjects(scene.children);
+                if (intersectedObjects.length) {
+                    // pick the first object. It's the closest one
+                    this.pickedObject = intersectedObjects[0].object;
+                    // save its color
+                    this.pickedObjectSavedColor = this.pickedObject.material.emissive.getHex();
+                    // set its emissive color to flashing red/yellow
+                    this.pickedObject.material.emissive.setHex((time * 8) % 2 > 1 ? 0xFFFF00 : 0xFF0000);
+                }
+            }
+        }
+
+        renderer.render(scene, camera);
+        renderScene();
+        const pickPosition = {x: 0, y: 0};
+        const pickHelper = new PickHelper();
+        clearPickPosition();
+        function renderScene() {
+
+
+
+            if (resizeRendererToDisplaySize(renderer)) {
+                const canvas = renderer.domElement;
+                camera.aspect = canvas.clientWidth / canvas.clientHeight;
+                camera.updateProjectionMatrix();
+            }
+
+
+
+
+
+            renderer.render(scene, camera);
+
+            requestAnimationFrame(renderScene);
+
+
+
+            // requestAnimationFrame(renderScene);
+            //
+            // pickHelper.pick(pickPosition, scene, camera, time);
+            // console.log('ssssssss')
+            // clearPickPosition();
+            // renderer.render(scene, camera);
+
+        }
+        function resizeRendererToDisplaySize(renderer) {
+            const canvas = renderer.domElement;
+            const width = canvas.clientWidth;
+            const height = canvas.clientHeight;
+            const needResize = canvas.width !== width || canvas.height !== height;
+            if (needResize) {
+                renderer.setSize(width, height, false);
+            }
+            return needResize;
+        }
+        function getCanvasRelativePosition(event) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (event.clientX - rect.left) * canvas.width  / rect.width,
+                y: (event.clientY - rect.top ) * canvas.height / rect.height,
+            };
+        }
+        function setPickPosition(event) {
+            const pos = getCanvasRelativePosition(event);
+            console.log(pos)
+            pickPosition.x = (pos.x / canvas.width ) *  2 - 1;
+            pickPosition.y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
+        }
+        function clearPickPosition() {
+            // unlike the mouse which always has a position
+            // if the user stops touching the screen we want
+            // to stop picking. For now we just pick a value
+            // unlikely to pick something
+            pickPosition.x = -100000;
+            pickPosition.y = -100000;
+        }
+        window.addEventListener('mousemove', setPickPosition);
+        window.addEventListener('mouseout', clearPickPosition);
+        window.addEventListener('mouseleave', clearPickPosition);
+    });
+
+</script>
+</body>
+</html>
